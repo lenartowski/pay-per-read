@@ -8,16 +8,15 @@ contract("PrivatePaywall", (accounts) => {
     privatePaywallInstance = await PrivatePaywall.deployed();
   });
 
-  it("check permissions", async () => {
-    // await privatePaywallInstance.addPermission.call(accounts[0], 1);
-    // const _permissions = await privatePaywallInstance.hasPermission.call(accounts[0], 1);
+  it("adding permissions should add permissions to article", async () => {
     await privatePaywallInstance.addPermission(accounts[0], 1);
-    const _permissionsGranted = await privatePaywallInstance.hasPermission(accounts[0], 1);
-    await assert.equal(_permissionsGranted, true);
+    await expect(await privatePaywallInstance.hasPermission(accounts[0], 1)).to.be.true;
+    await expect(await privatePaywallInstance.hasPermission(accounts[0], 2)).to.be.false;
+  });
 
-    await assert.equal(
-      await privatePaywallInstance.hasPermission(accounts[0], 2),
-      false
-    );
+  it("pay for permission, get permission", async () => {
+    await privatePaywallInstance.buyPermission(1, {value: web3.utils.toWei("1", "ether"), from: accounts[0]});
+
+    await expect(await privatePaywallInstance.hasPermission(accounts[0], 1)).to.be.true;
   });
 })

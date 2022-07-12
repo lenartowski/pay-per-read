@@ -19,4 +19,11 @@ contract PrivatePaywall {
     permissions[userId].push(articleId);
   }
 
+  function buyPermission(uint articleId) payable public {
+    if (msg.value > 1) {
+      addPermission(msg.sender, articleId);
+    } else {
+      revert();
+    }
+  }
 }
