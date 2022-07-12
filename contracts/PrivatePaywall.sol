@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.15;
+
+contract PrivatePaywall {
+  mapping (address => uint[]) permissions;
+
+  function hasPermission(address userId, uint articleId) public view returns (bool) {
+    // check if user has permission for article
+    if (permissions[userId].length > 0) {
+      for (uint i = 0; i < permissions[userId].length; i++) {
+        if (permissions[userId][i] == articleId) return true;
+      }
+    }
+    return false;
+  }
+
+  function addPermission(address userId, uint articleId) public {
+    // add permission for user to article
+    permissions[userId].push(articleId);
+  }
+
+}
