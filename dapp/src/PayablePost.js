@@ -11,6 +11,8 @@ import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Chip from '@mui/material/Chip';
+import { addUsersPermission } from "./web3Client";
+
 
 
 const ExpandMore = styled((props) => {
@@ -30,16 +32,12 @@ export default function RecipeReviewCard() {
   const [payStatus, setPayStatus] = React.useState("Buy access");
 
   const handleExpandClick = () => {
-    console.log("hello");
     setExpanded(!expanded);
   };
 
   const handleBuyClick = () => {
-    console.log("pay bitch");
+    addUsersPermission(1);
     setPaid(true);
-    console.log(paid);
-    setPayStatus("You have access!");
-
   }
 
   return (

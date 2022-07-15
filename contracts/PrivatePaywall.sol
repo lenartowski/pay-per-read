@@ -4,6 +4,8 @@ pragma solidity ^0.8.15;
 contract PrivatePaywall {
   mapping (address => uint[]) permissions;
 
+
+
   function hasPermission(address userId, uint articleId) public view returns (bool) {
     // check if user has permission for article
     if (permissions[userId].length > 0) {

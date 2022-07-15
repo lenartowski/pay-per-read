@@ -41,10 +41,23 @@ export const initWeb3 = async () => {
 }
 
 export const getUsersPermissions = async () => {
-  if (!isInitialized) {
-    await initWeb3();
+  if (isInitialized) {
+    return paywallContract.methods.usersPermissions().call()
+  } else {
+    console.log("nor initialized")
   }
+}
 
-  return paywallContract.methods.usersPermissions().call()
+export const addUsersPermission = async (articleId) => {
+  if (typeof paywallContract !== "undefined") {
+    console.log("buying...")
+    const result = await paywallContract.methods.addPermission(selectedAccount, articleId).call()
+    console.log(result)
 
+    console.log("permissions after buying:")
+    const permissions = await getUsersPermissions()
+    console.log(permissions)
+  } else {
+    console.log("no contract instance")
+  }
 }
