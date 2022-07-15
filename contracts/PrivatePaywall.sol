@@ -26,4 +26,8 @@ contract PrivatePaywall {
       revert();
     }
   }
+
+  function usersPermissions() public view returns(uint[] memory){
+    return permissions[msg.sender];
+  }
 }

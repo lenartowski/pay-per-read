@@ -2,12 +2,13 @@ import * as ReactDOM from "react-dom/client";
 import * as React from "react";
 import { Container } from "@mui/material";
 import RecipeReviewCard from "./PayablePost";
-import { initWeb3 } from "./web3Client";
+import { getUsersPermissions } from "./web3Client";
 
 
 function App() {
   React.useEffect(() => {
-      initWeb3()
+    console.log("getting users permissions");
+    getUsersPermissions().then((result) => {console.log(result)})
   }, [])
 
   return (

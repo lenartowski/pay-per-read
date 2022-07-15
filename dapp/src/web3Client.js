@@ -1,8 +1,10 @@
 // import Web3 from "web3";
 import Web3 from 'web3';
+import contractBuild from 'contracts/PrivatePaywall.json'
 
 let selectedAccount;
 let isInitialized = false;
+let paywallContract;
 
 
 export const initWeb3 = async () => {
@@ -26,6 +28,23 @@ export const initWeb3 = async () => {
       selectedAccount = accounts[0];
       console.log(`Selected account changed to ${selectedAccount}`);
     });
+
+    // get contract
+    const web3 = new Web3(provider);
+    const networkId = await web3.eth.net.getId();
+    paywallContract = new web3.eth.Contract(
+      contractBuild.abi,
+      contractBuild.networks[networkId].address
+    );
     isInitialized = true;
   }
+}
+
+export const getUsersPermissions = async () => {
+  if (!isInitialized) {
+    await initWeb3();
+  }
+
+  return paywallContract.methods.usersPermissions().call()
+
 }
