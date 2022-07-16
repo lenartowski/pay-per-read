@@ -5,6 +5,7 @@ import contractBuild from 'contracts/PrivatePaywall.json'
 let selectedAccount;
 let isInitialized = false;
 let paywallContract;
+let web3;
 
 
 export const initWeb3 = async () => {
@@ -30,7 +31,7 @@ export const initWeb3 = async () => {
     });
 
     // get contract
-    const web3 = new Web3(provider);
+    web3 = new Web3(provider);
     const networkId = await web3.eth.net.getId();
     paywallContract = new web3.eth.Contract(
       contractBuild.abi,
@@ -50,13 +51,11 @@ export const getUsersPermissions = async () => {
 
 export const addUsersPermission = async (articleId) => {
   if (typeof paywallContract !== "undefined") {
-    console.log("buying...")
-    const result = await paywallContract.methods.addPermission(selectedAccount, articleId).call()
-    console.log(result)
-
-    console.log("permissions after buying:")
-    const permissions = await getUsersPermissions()
-    console.log(permissions)
+    
+    paywallContract.methods.addPermission(selectedAccount, articleId).send({
+      from: selectedAccount
+    })
+    
   } else {
     console.log("no contract instance")
   }

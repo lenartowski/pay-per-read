@@ -35,9 +35,10 @@ export default function RecipeReviewCard() {
     setExpanded(!expanded);
   };
 
-  const handleBuyClick = () => {
-    addUsersPermission(1);
+  const handleBuyClick = async () => {
+    await addUsersPermission(1);
     setPaid(true);
+    setPayStatus("You have access!")
   }
 
   return (

@@ -16,14 +16,14 @@ contract PrivatePaywall {
     return false;
   }
 
-  function addPermission(address userId, uint articleId) public {
+  function addPermission(address userId, uint articleId) external {
     // add permission for user to article
     permissions[userId].push(articleId);
   }
 
   function buyPermission(uint articleId) payable public {
     if (msg.value > 1) {
-      addPermission(msg.sender, articleId);
+      this.addPermission(msg.sender, articleId);
     } else {
       revert();
     }
