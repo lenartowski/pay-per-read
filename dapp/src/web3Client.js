@@ -52,11 +52,20 @@ export const getUsersPermissions = async () => {
 export const addUsersPermission = async (articleId) => {
   if (typeof paywallContract !== "undefined") {
     
-    paywallContract.methods.addPermission(selectedAccount, articleId).send({
-      from: selectedAccount
+    paywallContract.methods.buyPermission(articleId).send({
+      from: selectedAccount,
+      value: web3.utils.toWei("1", "ether")
     })
-    
   } else {
     console.log("no contract instance")
+  }
+}
+
+export const checkPermissionForArticle = async (articleId) => {
+  const allPermissions = await getUsersPermissions()
+  if (allPermissions.includes(articleId.toString())) {
+    return true
+  } else {
+    return false
   }
 }

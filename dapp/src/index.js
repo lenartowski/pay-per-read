@@ -1,22 +1,25 @@
 import * as ReactDOM from "react-dom/client";
 import * as React from "react";
-import { Container } from "@mui/material";
 import RecipeReviewCard from "./PayablePost";
 import { initWeb3, getUsersPermissions } from "./web3Client";
-
+import Grid from '@mui/material/Grid';
 
 function App() {
   React.useEffect(() => {
-    console.log("getting users permissions");
     initWeb3().then(() => {
       getUsersPermissions().then((result) => { console.log(result) })
     })
   }, [])
 
   return (
-    <Container>
-      <RecipeReviewCard />
-    </Container>
+    <Grid container spacing={2}>
+      <Grid item xs={12}>
+      <RecipeReviewCard articleId={1} />
+      </Grid>
+      <Grid item xs={12}>
+      <RecipeReviewCard articleId={2} />
+      </Grid>
+    </Grid>
   );
 }
 

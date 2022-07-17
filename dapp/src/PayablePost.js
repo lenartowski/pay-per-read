@@ -11,8 +11,7 @@ import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Chip from '@mui/material/Chip';
-import { addUsersPermission } from "./web3Client";
-
+import { addUsersPermission, checkPermissionForArticle } from "./web3Client";
 
 
 const ExpandMore = styled((props) => {
@@ -26,18 +25,21 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-export default function RecipeReviewCard() {
+export default function RecipeReviewCard(props) {
   const [expanded, setExpanded] = React.useState(false);
-  const [paid, setPaid] = React.useState(false);
   const [payStatus, setPayStatus] = React.useState("Buy access");
 
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
+  const handleExpandClick = async () => {
+    if(await checkPermissionForArticle(props.articleId) === true) {
+      console.log("You have permission to read")
+      setExpanded(!expanded);
+    } else {
+      console.log("You need pay first!")
+    }
   };
 
   const handleBuyClick = async () => {
-    await addUsersPermission(1);
-    setPaid(true);
+    await addUsersPermission(props.articleId);
     setPayStatus("You have access!")
   }
 

@@ -16,17 +16,9 @@ contract PrivatePaywall {
     return false;
   }
 
-  function addPermission(address userId, uint articleId) external {
-    // add permission for user to article
-    permissions[userId].push(articleId);
-  }
-
   function buyPermission(uint articleId) payable public {
-    if (msg.value > 1) {
-      this.addPermission(msg.sender, articleId);
-    } else {
-      revert();
-    }
+    require(msg.value >= 1 ether, "gimme more");
+    permissions[msg.sender].push(articleId);
   }
 
   function usersPermissions() public view returns(uint[] memory){
