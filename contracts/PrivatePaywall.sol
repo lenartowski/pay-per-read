@@ -4,7 +4,7 @@ pragma solidity ^0.8.15;
 contract PrivatePaywall {
   mapping (address => uint[]) permissions;
 
-
+  event SenderDebugEvent(address indexed id, string funname);
 
   function hasPermission(address userId, uint articleId) public view returns (bool) {
     // check if user has permission for article
@@ -18,10 +18,12 @@ contract PrivatePaywall {
 
   function buyPermission(uint articleId) payable public {
     require(msg.value >= 1 ether, "gimme more");
+    emit SenderDebugEvent(msg.sender, "buyPermission");
     permissions[msg.sender].push(articleId);
   }
 
-  function usersPermissions() public view returns(uint[] memory){
+  function usersPermissions() public returns(uint[] memory){
+    emit SenderDebugEvent(msg.sender, "usersPermissions");
     return permissions[msg.sender];
   }
 }
