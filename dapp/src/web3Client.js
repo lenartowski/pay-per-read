@@ -62,10 +62,7 @@ export const addUsersPermission = async (articleId) => {
 }
 
 export const checkPermissionForArticle = async (articleId) => {
-  const allPermissions = await getUsersPermissions()
-  if (allPermissions.includes(articleId.toString())) {
-    return true
-  } else {
-    return false
-  }
+  return await paywallContract.methods.hasPermission(
+    selectedAccount, articleId
+  ).call()
 }
